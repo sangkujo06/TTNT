@@ -27,7 +27,7 @@ def bfs(start, goal, get_neighbors):
                 path.insert(0, vertex)
                 vertex = parent[vertex]
             return path
-        for neighbor in get_neighbors(vertex):
+        for neighbor in get_neighbors(vertex,matrix):
             if neighbor not in discover:
                 discover.add(neighbor)
                 parent[neighbor] = vertex
