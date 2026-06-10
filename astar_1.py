@@ -33,7 +33,7 @@ def astar(start, goal, get_neighbors):
                 path.insert(0, current)
                 current = parent[current]
             return path
-        for neighbor in get_neighbors(current):
+        for neighbor in get_neighbors(current,matrix):
             tentative_g = g_score[current] + 1
             if neighbor not in g_score or tentative_g < g_score[neighbor]:
                 g_score[neighbor] = tentative_g
