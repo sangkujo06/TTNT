@@ -1,28 +1,21 @@
-def dfs(matrix, st, en):
-
-    r = len(matrix)
-    c = len(matrix[0])
-    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
-    stack = [st]
-    parent = {st: None}
+def dfs(maze, start, end) -> dict:
+    stack = [start]
+    parent = {start: None}
+    visited_order = []
 
     while stack:
         cur = stack.pop()
+        visited_order.append(cur)
 
-        if cur == en:
-            path = []
-            while cur is not None:
-                path.append(cur)
-                cur = parent[cur]
-            return path[::-1]
+        if cur == end:
+            return {
+                'path': _reconstruct(parent, start, end),
+                'visited': visited_order,
+            }
 
-        for dx, dy in dirs:
-            nb = (cur[0] + dx, cur[1] + dy)
-            if (0 <= nb[0] < r and 0 <= nb[1] < c
-                    and matrix[nb[0]][nb[1]] == 0
-                    and nb not in parent):
+        for nb in maze.neighbors(*cur):
+            if nb not in parent:
                 parent[nb] = cur
                 stack.append(nb)
 
-    return None
+    return {'path': None, 'visited': visited_order}
