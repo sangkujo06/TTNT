@@ -1,37 +1,36 @@
 import heapq
 
-def kc(a, b):
-    # Khoảng cách Manhatta
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+def astar(maze, start, end) -> dict:
 
-def tim_duong(matrix, st, en):
-    r = len(matrix)
-    c = len(matrix[0])
+    open_list = []
+    heapq.heappush(open_list, (manhattan(start, end), start))
+    parent = {start: None}
+    g = {start: 0}
+    closed_set = set()
+    visited_order = []
 
-    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    open_set = []
-    heapq.heappush(open_set, (0, st))
-    parent = {}
-    g = {st: 0}
-    f = {st: kc(st, en)}
+    while open_list:
+        _, cur = heapq.heappop(open_list)
 
-    while open_set:
-        _, cur = heapq.heappop(open_set)
-        if cur == en:
-            path = []
-            while cur in parent:
-                path.append(cur)
-                cur = parent[cur]
-            path.append(st)
-            return path[::-1]
+        if cur in closed_set:
+            continue
+        closed_set.add(cur)
+        visited_order.append(cur)
 
-        for dx, dy in dirs:
-            nb = (cur[0] + dx, cur[1] + dy)
-            if 0 <= nb[0] < r and 0 <= nb[1] < c and matrix[nb[0]][nb[1]] == 0:
-                tmp_g = g[cur] + 1
-                if nb not in g or tmp_g < g[nb]:
-                    parent[nb] = cur
-                    g[nb] = tmp_g
-                    f[nb] = tmp_g + kc(nb, en)
-                    heapq.heappush(open_set, (f[nb], nb))
-    return None
+        if cur == end:
+            return {
+                'path': _reconstruct(parent, start, end),
+                'visited': visited_order,
+            }
+
+        for nb in maze.neighbors(*cur):
+            if nb in closed_set:
+                continue
+            g_new = g[cur] + 1
+            if nb not in g or g_new < g[nb]:
+                g[nb] = g_new
+                f_nb = g_new + manhattan(nb, end)
+                parent[nb] = cur
+                heapq.heappush(open_list, (f_nb, nb))
+
+    return {'path': None, 'visited': visited_order}
