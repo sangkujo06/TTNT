@@ -1,30 +1,18 @@
-def dfs(start, goal, matrix):
+def dfs(maze, start, end) -> dict:
     stack = [start]
-    visited = set()
     parent = {start: None}
+    visited_order = []
 
     while stack:
-        state = stack.pop()
-        if state in visited:
-            continue
-        visited.add(state)
+        cur = stack.pop()
+        visited_order.append(cur)
 
-        if state == goal:
-            return reconstruct_path(parent, start, goal), visited
+        if cur == end:
+            return {'path': _reconstruct(parent, start, end), 'visited': visited_order}
 
-        for neighbor in get_neighbors(state, matrix):
-            if neighbor not in visited and neighbor not in parent:
-                parent[neighbor] = state
-                stack.append(neighbor)
+        for nb in maze.neighbors(*cur):
+            if nb not in parent:
+                parent[nb] = cur
+                stack.append(nb)
 
-    return None, visited
-
-
-def reconstruct_path(parent, start, goal):
-    path = []
-    cur = goal
-    while cur is not None:
-        path.append(cur)
-        cur = parent[cur]
-    path.reverse()
-    return path
+    return {'path': None, 'visited': visited_order}
