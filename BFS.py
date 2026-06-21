@@ -1,7 +1,4 @@
-from collections import deque
-
 def bfs(maze, start, end) -> dict:
-
     queue = deque([start])
     parent = {start: None}
     visited_order = []
@@ -11,10 +8,7 @@ def bfs(maze, start, end) -> dict:
         visited_order.append(cur)
 
         if cur == end:
-            return {
-                'path': _reconstruct(parent, start, end),
-                'visited': visited_order,
-            }
+            return {'path': _reconstruct(parent, start, end), 'visited': visited_order}
 
         for nb in maze.neighbors(*cur):
             if nb not in parent:
