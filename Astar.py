@@ -1,7 +1,4 @@
-import heapq
-
 def astar(maze, start, end) -> dict:
-
     open_list = []
     heapq.heappush(open_list, (manhattan(start, end), start))
     parent = {start: None}
@@ -11,17 +8,13 @@ def astar(maze, start, end) -> dict:
 
     while open_list:
         _, cur = heapq.heappop(open_list)
-
         if cur in closed_set:
             continue
         closed_set.add(cur)
         visited_order.append(cur)
 
         if cur == end:
-            return {
-                'path': _reconstruct(parent, start, end),
-                'visited': visited_order,
-            }
+            return {'path': _reconstruct(parent, start, end), 'visited': visited_order}
 
         for nb in maze.neighbors(*cur):
             if nb in closed_set:
