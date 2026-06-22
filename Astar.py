@@ -1,3 +1,5 @@
+import heapq
+
 def astar(maze, start, end) -> dict:
 
     open_list = []
