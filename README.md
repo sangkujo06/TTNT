@@ -5,8 +5,11 @@ Nhóm 3 chúng em thiết kế theo module nên sử dụng cả 4 file
 4 file trong dự án:
 
 maze_engine.py — Tạo mê cung ngẫu nhiên bằng thuật toán DFS
+
 algorithms.py — Cài đặt 3 thuật toán tìm đường: DFS, BFS, A*
+
 visualize_pygame.py — Cửa sổ so sánh 3 thuật toán song song (mở từ nút trong GUI)
+
 main_gui.py — Giao diện chính (Tkinter), chạy file này để bắt đầu
 
 
