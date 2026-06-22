@@ -1,3 +1,5 @@
+from collections import deque
+
 def bfs(maze, start, end) -> dict:
 
     queue = deque([start])
